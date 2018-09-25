@@ -29,6 +29,32 @@ print(z)
 
 sess = tf.Session()
 print(sess.run(total))
+print(sess.run((a, b, total)))
+print(sess.run({'ab':(a, b), 'total':total}))
 
 sess = tf.Session()
 print(sess.run(z))
+
+
+vec = tf.random_uniform(shape=(3,))
+out1 = vec + 1
+out2 = vec + 2
+print(sess.run(vec))
+print(sess.run(vec))
+print(sess.run((out1, out2)))
+
+
+sess.close()
+
+#print(sess.run((out1, out2)))
+
+with tf.Session() as session:
+    print(session.run((a, b, total)))
+
+x = 2
+y = 3
+op1 = tf.add(x, y)
+op2 = tf.multiply(x, y)
+op3 = tf.pow(op2, op1)
+with tf.Session() as session:
+    print(session.run(op3))
