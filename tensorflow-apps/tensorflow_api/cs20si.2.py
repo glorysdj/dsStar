@@ -25,19 +25,19 @@ with tf.Session() as session:
     print(session.run(tf.ones_like(t_1)))
     print(session.run(tf.zeros_like(t_2)))
     print(session.run(tf.ones_like(t_2)))
-    print(session.run(tf.zeros([3,3], tf.float16)))
+    print(session.run(tf.zeros([3, 3], tf.float16)))
     print(session.run(tf.ones([3, 3], tf.float32)))
 
 my_const = tf.constant([1.0, 2.0], name="my_const")
 with tf.Session() as sess:
-     #print(sess.graph.as_graph_def())
-     print("hello")
+    # print(sess.graph.as_graph_def())
+    print("hello")
 
 a = tf.Variable(2, name="scalar")
 b = tf.Variable([2, 3], name="vector")
 c = tf.Variable([[0, 1], [2, 3]], name="matrix")
-W = tf.Variable(tf.zeros([784,10]))
-#init = tf.global_variables_initializer()
+W = tf.Variable(tf.zeros([784, 10]))
+# init = tf.global_variables_initializer()
 init_ab = tf.variables_initializer([a, b], name="init_ab")
 with tf.Session() as session:
     session.run(init_ab)
@@ -57,23 +57,23 @@ with tf.Session() as session:
 W = tf.Variable(10)
 W.assign(100)
 with tf.Session() as sess:
-     sess.run(W.initializer)
-     print(W.eval())
+    sess.run(W.initializer)
+    print(W.eval())
 
 W = tf.Variable(10)
 assign_op = W.assign(100)
 with tf.Session() as sess:
-     #sess.run(W.initializer) #dont need
-     sess.run(assign_op)
-     print(W.eval())
+    # sess.run(W.initializer) #dont need
+    sess.run(assign_op)
+    print(W.eval())
 
 my_var = tf.Variable(2, name="my_var")
 my_var_times_two = my_var.assign(2 * my_var)
 with tf.Session() as sess:
     print(sess.run(my_var.initializer))
-    print(sess.run(my_var_times_two)) # >> 4
-    print(sess.run(my_var_times_two)) # >> 8
-    print(sess.run(my_var_times_two)) # >> 16
+    print(sess.run(my_var_times_two))  # >> 4
+    print(sess.run(my_var_times_two))  # >> 8
+    print(sess.run(my_var_times_two))  # >> 16
     print(sess.run(my_var.assign_add(10)))
     print(sess.run(my_var.assign_sub(2)))
 
@@ -83,10 +83,10 @@ sess2 = tf.Session()
 sess1.run(W.initializer)
 sess2.run(W.initializer)
 
-print(sess1.run(W.assign_add(10))) # >> 20
-print(sess2.run(W.assign_sub(2))) # >> 8
-print(sess1.run(W.assign_add(100))) # >> 120
-print(sess2.run(W.assign_sub(50))) # >> -42
+print(sess1.run(W.assign_add(10)))  # >> 20
+print(sess2.run(W.assign_sub(2)))  # >> 8
+print(sess1.run(W.assign_add(100)))  # >> 120
+print(sess2.run(W.assign_sub(50)))  # >> -42
 sess1.close()
 sess2.close()
 
@@ -97,3 +97,38 @@ with tf.Session() as sess:
     sess.run(U.initializer)
     print(W.eval())
     print(U.eval())
+
+sess = tf.InteractiveSession()
+a = tf.constant(5.0)
+b = tf.constant(6.0)
+c = a * b
+# We can just use 'c.eval()' without specifying the context 'sess'
+print(c.eval())
+sess.close()
+
+a = tf.placeholder(tf.float32, shape=[3])
+b = tf.constant([5, 5, 5], tf.float32)
+c = a + b
+with tf.Session() as sess:
+    print(sess.run(c, {a: [1, 2, 3]}))
+
+a = tf.add(2, 5)
+b = tf.multiply(a, 3)
+with tf.Session() as sess:
+    replace_dict = {a: 15}
+    print(sess.run(b, feed_dict=replace_dict))  # returns 45
+
+x = tf.Variable(10, name='x')
+y = tf.Variable(20, name='y')
+with tf.Session() as sess:
+     sess.run(tf.global_variables_initializer())
+     for _ in range(10):
+       print(sess.run(tf.add(x, y))) # someone decides to be clever to save one line of code
+
+
+x = tf.placeholder(tf.float32, shape=[None, 3])
+y = tf.layers.dense(x, units=1)
+init = tf.global_variables_initializer()
+with tf.Session() as sess:
+    sess.run(init)
+    print(sess.run(y, {x: [[1, 2, 3], [4, 5, 6]]}))
