@@ -1,0 +1,17 @@
+<project>
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>me.glorysdj</groupId>
+     <artifactId>tensorflow-java-apps</artifactId>
+     <version>1.0-SNAPSHOT</version>
+     <properties>
+       <maven.compiler.source>1.7</maven.compiler.source>
+       <maven.compiler.target>1.7</maven.compiler.target>
+     </properties>
+     <dependencies>
+       <dependency>
+         <groupId>org.tensorflow</groupId>
+         <artifactId>tensorflow</artifactId>
+         <version>1.8.0</version>
+       </dependency>
+     </dependencies>
+ </project>
